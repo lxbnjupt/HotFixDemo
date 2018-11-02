@@ -147,20 +147,20 @@ public class HotFixUtils {
 ```
 相信代码中的注释已经非常清楚了，这里就不再过多赘述。
 不过，有一点需要注意一下，就是不要忘记打开读写手机存储权限：
-```
+`
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-```
+`
 
 ## 二、测试验证
 ### 2.1 将java文件编译成class文件
 完成修复bug之后，使用Android Studio的Rebuild Project功能将代码进行编译，然后从build目录下找到对应的class文件。
 ![](https://upload-images.jianshu.io/upload_images/5519943-a2fe4e3048ef452f.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 ### 2.2 将class文件打包成dex文件
-####step1:
+### step1:
 将修复好的class文件复制到其他任意地方，我这边是选择复制到桌面。注意，在复制这个class文件时，需要把它所在的完整包目录一起复制。上图中修复好的class文件是BugTest.class，其复制出来的目录结构如下图所示：
 ![](https://upload-images.jianshu.io/upload_images/5519943-52c4baf6693ec0a7.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-####step2:
+### step2:
 通过dx命令生成dex文件
 dx命令的使用有2种选择：
 * 配置环境变量（添加到classpath），然后命令行窗口（终端）可以在任意位置使用。
@@ -228,4 +228,5 @@ public class MainActivity extends AppCompatActivity {
 }
 ```
 ![](https://upload-images.jianshu.io/upload_images/5519943-6f9191cefe55e704.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+
 打开App，点击「运行」按钮，应用程序会因为NullPointerException直接crash。再次打开App，先点击「修复」按钮，再点击「运行」按钮，此时应用程序不会再出现crash，表示补丁加载成功，bug成功修复。至此，大功告成！
