@@ -9,7 +9,7 @@
 * 将合并完成后的数组设置回PathClassLoader.pathList.dexElements。
 
 ### Talk is cheap, show me the code.
-```
+```java
 public class HotFixUtils {
 
     private static final String TAG = "lxbnjupt";
@@ -147,7 +147,7 @@ public class HotFixUtils {
 ```
 相信代码中的注释已经非常清楚了，这里就不再过多赘述。
 不过，有一点需要注意一下，就是不要忘记打开读写手机存储权限：
-```
+```java
 <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 ```
@@ -175,7 +175,7 @@ dx --dex --output=输出的dex文件完整路径 (空格) 要打包的完整clas
 ![](https://upload-images.jianshu.io/upload_images/5519943-a27a5f120df14d14.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 #### 2.4 真机运行测试
 MainActivity.java
-```
+```java
 public class MainActivity extends AppCompatActivity {
 
     private static final String DEX_DIR = "patch";
