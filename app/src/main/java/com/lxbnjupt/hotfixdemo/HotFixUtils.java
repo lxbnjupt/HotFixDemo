@@ -45,6 +45,28 @@ public class HotFixUtils {
         if (listFiles == null || listFiles.length == 0) {
             return;
         }
+        String dexPath = getPatchDexPath(listFiles);
+        String odexPath = odexFile.getAbsolutePath();
+        // 获取PathClassLoader
+        PathClassLoader pathClassLoader = (PathClassLoader) context.getClassLoader();
+        // 构建DexClassLoader，用于加载补丁dex
+        DexClassLoader dexClassLoader = new DexClassLoader(dexPath, odexPath, null, pathClassLoader);
+        // 获取PathClassLoader的Element数组
+        Object pathElements = getDexElements(pathClassLoader);
+        // 获取构建的DexClassLoader的Element数组
+        Object dexElements = getDexElements(dexClassLoader);
+        // 合并Element数组
+        Object combineElementArray = combineElementArray(pathElements, dexElements);
+        // 通过反射，将合并后的Element数组赋值给PathClassLoader中pathList里面的dexElements变量
+        setDexElements(pathClassLoader, combineElementArray);
+    }
+
+    /**
+     * 获取补丁dex文件路径集合
+     * @param listFiles
+     * @return
+     */
+    private String getPatchDexPath(File[] listFiles) {
         StringBuilder sb = new StringBuilder();
         for (int i = 0; i < listFiles.length; i++) {
             // 遍历查找文件中.dex .jar .apk .zip结尾的文件
@@ -60,20 +82,7 @@ public class HotFixUtils {
                 sb.append(file.getAbsolutePath());
             }
         }
-        String dexPath = sb.toString();
-        String odexPath = odexFile.getAbsolutePath();
-        // 获取PathClassLoader
-        PathClassLoader pathClassLoader = (PathClassLoader) context.getClassLoader();
-        // 构建DexClassLoader，用于加载补丁dex
-        DexClassLoader dexClassLoader = new DexClassLoader(dexPath, odexPath, null, pathClassLoader);
-        // 获取PathClassLoader的Element数组
-        Object pathElements = getDexElements(pathClassLoader);
-        // 获取构建的DexClassLoader的Element数组
-        Object dexElements = getDexElements(dexClassLoader);
-        // 合并Element数组
-        Object combineElementArray = combineElementArray(pathElements, dexElements);
-        // 通过反射，将合并后的Element数组赋值给PathClassLoader中pathList里面的dexElements变量
-        setDexElements(pathClassLoader, combineElementArray);
+        return sb.toString();
     }
 
     /**
