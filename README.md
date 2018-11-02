@@ -1,14 +1,14 @@
 # 一步一步手动实现Android热更新
 
 在[Android热更新实现原理浅析](https://www.jianshu.com/p/8dcf750acdfe)一文中，我们简单分析了Android热更新的实现原理，那么赶紧趁热打铁，一步一步手动实现热更新，莱茨狗。
-##一、热更新代码实现
+## 一、热更新代码实现
 基于之前的分析，我们知道实现热更新可以分为以下几个步骤：
 * 通过构造一个DexClassLoader对象来加载我们的热更新dex文件；
 * 通过反射获取系统默认的PathClassLoader.pathList.dexElements；
 * 将我们的热更新dex与系统默认的Elements数组合并，同时保证热更新dex在系统默认Elements数组之前；
 * 将合并完成后的数组设置回PathClassLoader.pathList.dexElements。
 
-##Talk is cheap, show me the code.
+## Talk is cheap, show me the code.
 ```
 public class HotFixUtils {
 
@@ -152,11 +152,11 @@ public class HotFixUtils {
 <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 ```
 
-##二、测试验证
-###2.1 将java文件编译成class文件
+## 二、测试验证
+### 2.1 将java文件编译成class文件
 完成修复bug之后，使用Android Studio的Rebuild Project功能将代码进行编译，然后从build目录下找到对应的class文件。
 ![](https://upload-images.jianshu.io/upload_images/5519943-a2fe4e3048ef452f.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-###2.2 将class文件打包成dex文件
+### 2.2 将class文件打包成dex文件
 ####step1:
 将修复好的class文件复制到其他任意地方，我这边是选择复制到桌面。注意，在复制这个class文件时，需要把它所在的完整包目录一起复制。上图中修复好的class文件是BugTest.class，其复制出来的目录结构如下图所示：
 ![](https://upload-images.jianshu.io/upload_images/5519943-52c4baf6693ec0a7.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
@@ -170,10 +170,10 @@ dx --dex --output=输出的dex文件完整路径 (空格) 要打包的完整clas
 ![](https://upload-images.jianshu.io/upload_images/5519943-41d89e2645e04f10.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 完成之后，我们可以进到桌面文件夹下查看dex文件是否已经生成，我这边是成功生成了patch.dex文件。
 ![](https://upload-images.jianshu.io/upload_images/5519943-dc3005464bc90702.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-###2.3 将dex文件push至手机
+### 2.3 将dex文件push至手机
 通过adb命令adb push <local> <remote>，可以将dex文件推到手机指定目录。在上面的demo中，我设置的热更新dex文件的存放路径是/storage/emulated/0/Android/data/com.lxbnjupt.hotfixdemo/files/patch
 ![](https://upload-images.jianshu.io/upload_images/5519943-a27a5f120df14d14.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-###2.4 真机运行测试
+### 2.4 真机运行测试
 MainActivity.java
 ```
 public class MainActivity extends AppCompatActivity {
