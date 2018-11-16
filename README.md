@@ -1,6 +1,8 @@
 # 一步一步手动实现Android热更新
 
-在[Android热更新实现原理浅析](https://www.jianshu.com/p/8dcf750acdfe)一文中，我们简单分析了Android热更新的实现原理，那么赶紧趁热打铁，一步一步手动实现热更新，莱茨狗。
+在[Android热更新实现原理浅析](https://www.jianshu.com/p/8dcf750acdfe)一文中，我们简单分析了Android热更新的实现原理，那么赶紧趁热打铁，一步一步手动实现热更新，莱茨狗。所见即所得，先看一下最终要达成的效果。
+
+![热更新效果演示.gif](https://upload-images.jianshu.io/upload_images/5519943-dc0c372006757f34.gif?imageMogr2/auto-orient/strip)
 ### 一、热更新代码实现
 基于之前的分析，我们知道实现热更新可以分为以下几个步骤：
 * 通过构造一个DexClassLoader对象来加载我们的热更新dex文件；
@@ -234,6 +236,4 @@ public class MainActivity extends AppCompatActivity {
     }
 }
 ```
-![](https://upload-images.jianshu.io/upload_images/5519943-6f9191cefe55e704.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
-
-打开App，点击「运行」按钮，应用程序会因为NullPointerException直接crash。再次打开App，先点击「修复」按钮，再点击「运行」按钮，此时应用程序不会再出现crash，表示补丁加载成功，bug成功修复。至此，大功告成！
+如文章开始的gif图所示，打开App，点击「运行」按钮，应用程序会因为NullPointerException直接crash。再次打开App，先点击「修复」按钮，再点击「运行」按钮，此时应用程序不会再出现crash，表示补丁加载成功，bug成功修复。至此，大功告成！
