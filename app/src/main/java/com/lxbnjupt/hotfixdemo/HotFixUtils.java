@@ -37,6 +37,7 @@ public class HotFixUtils {
             Log.e(TAG,"热更新补丁目录不存在");
             return;
         }
+        // 获取应用原本的 dex 文件
         File odexFile = context.getDir(OPTIMIZE_DEX_DIR, Context.MODE_PRIVATE);
         if (!odexFile.exists()) {
             odexFile.mkdir();

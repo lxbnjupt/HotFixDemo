@@ -6,6 +6,17 @@
     android:layout_height="match_parent"
     tools:context="com.lxbnjupt.hotfixdemo.MainActivity">
 
+    <TextView
+        android:textColor="@color/colorAccent"
+        android:padding="10dp"
+        android:text="注意：\n(1) 因为 CLASS_ISPREVERIFIED 问题，请使用 ART 机型，即 5.0 及以上\n(2) 注意 Android 系统隐藏 API 的原因，请使用 9.0 以下的机型"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btn_run"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
     <Button
         android:id="@+id/btn_run"
         android:layout_width="wrap_content"
