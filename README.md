@@ -183,6 +183,11 @@ dx --dex --output=输出的dex文件完整路径 (空格) 要打包的完整clas
 
 ![](https://upload-images.jianshu.io/upload_images/5519943-a27a5f120df14d14.jpeg?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 #### 2.4 真机运行测试
+
+**补充：
+(1) 因为 CLASS_ISPREVERIFIED 问题，请使用 ART 机型，即 5.0 及以上
+(2) 注意 Android 系统隐藏 API 的原因，请使用 9.0 以下的机型**
+
 MainActivity.java
 ```java
 public class MainActivity extends AppCompatActivity {

@@ -32,25 +32,36 @@ public class HotFixUtils {
             return;
         }
         // 补丁存放目录为 /storage/emulated/0/Android/data/com.lxbnjupt.hotfixdemo/files/patch
+        // 注意，这里的 dexFile 是一个目录
         File dexFile = context.getExternalFilesDir(DEX_DIR);
         if (dexFile == null || !dexFile.exists()) {
             Log.e(TAG,"热更新补丁目录不存在");
             return;
         }
+        // 获取应用原本的 dex 文件
         File odexFile = context.getDir(OPTIMIZE_DEX_DIR, Context.MODE_PRIVATE);
         if (!odexFile.exists()) {
             odexFile.mkdir();
         }
+        // 获取 /storage/emulated/0/Android/data/com.lxbnjupt.hotfixdemo/files/patch 目录下的所有文件
         File[] listFiles = dexFile.listFiles();
         if (listFiles == null || listFiles.length == 0) {
             return;
         }
+        // 获取补丁dex文件路径集合
         String dexPath = getPatchDexPath(listFiles);
         String odexPath = odexFile.getAbsolutePath();
-        // 获取PathClassLoader
+        // 获取 PathClassLoader
         PathClassLoader pathClassLoader = (PathClassLoader) context.getClassLoader();
         // 构建DexClassLoader，用于加载补丁dex
+        // DexClassLoader 构造方法的四个参数：
+        //      第一个：dex 文件相关路径集合，多个路径用文件分隔符分隔，默认文件分隔符为 :
+        //      第二个：解压的 dex 文件的存储路径，必须是一个内部存储路径
+        //      第三个：包含 C/C++ 库的路径集合，可以为 null
+        //      第四个：父加载器
         DexClassLoader dexClassLoader = new DexClassLoader(dexPath, odexPath, null, pathClassLoader);
+        // 这里要新 new 一个 DexClassLoader 的原因就是为了借助系统来构建出补丁 dex 对应的 Element 元素的数组，
+        // 从而插入到系统 PathClassLoader 的 pathList.dexElements 中
         // 获取PathClassLoader的Element数组
         Object pathElements = getDexElements(pathClassLoader);
         // 获取构建的DexClassLoader的Element数组
